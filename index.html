@@ -1,40 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
-      <link rel="stylesheet" type="text/css" href="./style.css">
-   </head>
-   <body id="root">
-      <div class="pusher">
-         <div class="ui vertical masthead center aligned segment">
-            <div class="ui container"></div>
-            <div class="ui text container">
-               <h1 class="ui header">Welcome!</h1>
-               <h2>Do you plan on traveling to another city or even another country but are concerned because COVID-19? Don't worry! We got you covered!
-                 <br>
-                 <br>
-                In the search bar below you'll be able to see the caseloads, travel restrictions and requirements for wherever you are traveling to.</h2>
-                <div class="ui search">
-                  <div class="ui icon input">
-                    <input class="prompt" id=prompt type="text" placeholder="Search countries...">
-                    <i class="search icon"></i>
-                  </div>
-                  <div class="results"></div>
-                </div>
-                <br>
-               <div class="ui huge primary button" id=button>
-                  Let's Go! <i class="right arrow icon"></i>
-               </div>
-            </div>
-         </div>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+  <title>Covid Travel Info</title>
+</head>
+
+<body>
+
+  <h1 class="ui header">Covid-19 Travel Info</i></h1>
+ 
+
+
+
+
+
+  <div class="four wide ui two column divided grid">
+    
+    <div class="column">
+      <div class="ui icon input">
+        <i class="search icon"></i>
+        <input type="text" placeholder="Location">
       </div>
-   </body>
-   <script src="./script.js"></script>
-   <script
-      src="https://code.jquery.com/jquery-3.1.1.min.js"
-      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-      crossorigin="anonymous"></script>
-   <script src="semantic/dist/semantic.min.js"></script>
+      <div class="ui hidden divider"></div>
+      <div class="ui primary button">Search  <i class="plane icon"></i></div>
+    </div>
+
+    <div id='Info' class="column">
+      <h1 >Results for: <span id='area'></span></h1>
+      <h3>Area vaxed percetage with 1 dose: <span id="areavax"></span></h3>
+      <h3>Area vaxed percetage fully dosed: <span id="areavax2"></span></h3>
+      <p>Cases confirmed: <span id="cases"></span></p>
+      <p>Risk level: <span id="riskLevel"></span></p>
+      <p id="type"></p>
+      <p id="summary"></p>
+    </div>
+
+    <div class="ui modal">
+      <div class="header">Location not found</div>
+      <div class="content">
+        <p>Please try again!</p>
+      </div>
+      <div class="actions">
+        <div class="ui approve button">Try again</div>
+      </div>
+    </div>
+    
+
+    <form action="https://submit-form.com/zj6diEJw">
+      <input id="value" type="hidden" name="message" value="hello"/>
+      <input type="hidden" name="_email.from" value="Covid-19 Info for Travel" />
+      <input type="hidden" name="_email.subject" value="You have a new message!" />
+      <input type="email" name="email" />
+      <button id="send" type="submit">Send</button>
+    </form>
+
+    <div style="text-align: left;">
+      <strong>New submission:</strong>
+      <div style="margin: 16px 0;">
+        {{#each data}}<div><strong>{{@key}}</strong>: {{json this}}</div>{{/each}}
+        <a href="{{viewLink}}">View in Formspark</a>
+      </div>
+    </div>
+  
+
+  
+  
+
+
+  <script src="script.js"></script> 
+</body>
+</html>
