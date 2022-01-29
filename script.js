@@ -279,17 +279,17 @@ for (const key in countries) {
 
 }
 
-let countryCode = ""
-document.getElementById('country').addEventListener('click', function (event) {
-    let input = document.querySelector('input[name=countries]')
-    event.preventDefault()
-    for (const key in countries) {
-        if (countries[key] == input.value) {
-            countryCode = key
-            console.log(countryCode)
-        }
-    }
-})
+// let countryCode = ""
+// document.getElementById('country').addEventListener('click', function (event) {
+//     // let input = document.querySelector('input[name=countries]')
+//     // event.preventDefault()
+//     // for (const key in countries) {
+//     //     if (countries[key] == input.value) {
+//     //         countryCode = key
+//     //         console.log(countryCode)
+//     //     }
+//     // }
+// })
 
 
 var nameEl = ""
@@ -297,7 +297,7 @@ var areavaxVal = ""
 var areavax2Val = ""
 
 
-function SearchInfo() {
+function SearchInfo(countryCode) {
     $('#init').addClass('hide')
     $('#secondPage').removeClass('hide')
     $('#infoResult').removeClass('hide')
@@ -414,12 +414,24 @@ function sendEmail() {
 }
 
 $('#emailSender').click(sendEmail)
-
+function getCountryCode(event){
+    let input = document.querySelector('input[name=countries]')
+    event.preventDefault()
+    for (const key in countries) {
+        if (countries[key] == input.value) {
+            countryCode = key
+            return countryCode
+            console.log(countryCode)
+        }
+    }
+}
 //Local storage for seach history
 var searchHistoryButtonEl = document.querySelector('#prevHistory-buttons');
 
-var saveSearch = function(){
-    localStorage.setItem("countries", JSON.stringify(nameEl));
+var saveSearch = function(country){
+    var historyAr = JSON.parse(localStorage.getItem('historyArray'))||[]
+    historyAr.push(country)
+    localStorage.setItem("historyArray", JSON.stringify(historyAr));
 };
 //List of all previous saved searches you can click on
 var pastSearch = function(pastSearch){
@@ -431,10 +443,15 @@ var pastSearch = function(pastSearch){
     searchHistoryButtonEl.prepend(prevSearchEl);
 };
 var searchHistory = function(event){
+    var countryCode = getCountryCode()
     var country = event.target.getAttribute("data-country")
+    console.log(country)
+    saveSearch(countryCode)
     if(country){
-        SearchInfo(country);
+        SearchInfo(countryCode);
+
     };
+
 };
 countryEl.addEventListener("click", searchHistory);
 
