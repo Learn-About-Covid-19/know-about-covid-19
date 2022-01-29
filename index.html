@@ -1,101 +1,121 @@
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
-<link rel="stylesheet" type="text/css" href="style.css">
-
-</head>
-<body id="root">
-  <div class="pusher">
-     <div class="ui  vertical masthead center aligned segment">
-        <div class="ui container"></div>
-        <div class="ui text container">
-           <h1 class="ui header">Welcome!</h1>
-           <h2>Do you plan on traveling to another city or even another country but are concerned because COVID-19? Don't worry! We got you covered!
-             <br>
-             <br>
-            In the search bar below you'll be able to see the caseloads, travel restrictions and requirements for wherever you are traveling to.</h2>
-            <div class="ui search">
-              <div class="ui icon input">
-                <input class="prompt" type="text" placeholder="Search countries...">
-                <i class="search icon"></i>
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    
+   </head>
+   <body id="root">
+      <div class="pusher">
+         <div class="ui vertical masthead center aligned segment">
+            <div class="ui container"></div>
+            <div class="ui text container">
+               <div id="init" class="ui header">
+                 <h1>Welcome!</h1>
+                <h2>Do you plan on traveling to another city or even another country but are concerned because COVID-19? Don't worry! We got you covered!
+                 <br>
+                 <br>
+                In the search bar below you'll be able to see the caseloads, travel restrictions and requirements for wherever you are traveling to.</h2>
               </div>
-              <div class="results"></div>
+              <div id="secondPage" class="hide pusher">
+                <div class="ui  vertical masthead center aligned segment">
+                   <div class="ui container"></div>
+                   <div class="ui text container">
+                      <h1 class="ui header">Lucky you!</h1>
+                      <h2>We have the information you need regarding your destination.</h2>
+                   </div>
+                </div>
+             </div>
+                <div class="ui search">
+                  <div class="ui input">
+                    <form id="list" action="/action_page.php" method="get">
+                      <label for="browser">Search for your country destination:</label>
+                      <br>
+                      <input class="prompt" list="countries" type="text" name="countries" onfocus="this.value=''" placeholder="Search countries..." >
+                      <datalist id="countries">
+                    
+                      </datalist>
+
+                    </form>
+                  </div>
+                  <div class="prevHistory" id="prevHistory-buttons"></div>
+                  <br>
+                  <button class="btn btn-danger mb-3" type="button" id="clear">Clear history</button>
+                  <form id="history"></form>
+              </div>
+                </div>
+                <br>
+               <inpput class="ui huge primary button" type="submit" id="country">
+                  Let's Go! <i class=" plane icon"></i>
+               </inpput>
             </div>
-            <br>
-            <a href="results.html">
-           <button class="ui huge primary button">
-              Let's Go! <i class="right arrow icon"></i>
-           </button></a>
-        </div>
-     </div>
-  </div>
-
-  <form action="/action_page.php" method="get">
-    <label for="browser">Choose your browser from the list:</label>
-    <input list="countries" name="countries" >
-    <datalist id="countries">
-      
-    </datalist>
-    <input type="submit" id="enter">
-  </form>
-  
-  <script>
-      
-         let countries = {
-        "US": "United States of America",
-              "CAN": "Republique of Canada",
-              "NIG": "Nigeria",
-              "COL" : "Colombia",
-      }
-      
-          let optionList = document.getElementById('countries') 
-        for (const key in countries) {
-            let option = document.createElement('option')
-        option.value = countries[key] 
-              option.id = key
-              
-            optionList.append(option) 
-          
-      }
-          
-          document.getElementById('enter').addEventListener('click', function(event) {
-              let input = document.querySelector('input[name=countries]')
-              event.preventDefault()
-              for( const key in countries) {
-                 if ( countries[key] == input.value) {
-                    let countryCode = key 
-                    makeApiRequest(countryCode)
-                  }
-              }
-            })
-        
-
-      </script>
-
-  <div class="ui raised very padded text container segment">
-    <h2 class="ui header">Email me the info!</h2>
-    <form class="ui form">
-       <div class="field">
-         <label>E-mail</label>
-         <input type="text" name="first-name" placeholder="First Name">
-       </div>
-       <div class="field">
-         <div class="ui checkbox">
-           <input type="checkbox" tabindex="0" class="hidden">
-           <label>I agree to the Terms and Conditions</label>
+            <div>
          </div>
-       </div>
-       <button class="ui button" type="submit">Submit</button>
-     </form>
+      </div>
+
+
+     <div id="infoResult" class="hide ui one column doubling grid raised container segment">
+      <div class="row">
+        <h1 class="ui header"> Results for: <span id='area'></span></h1>
+      </div>
+      <div class="column">
+        <h3>Area vaxed percetage with 1 dose: <span id="areavax"></span></h3>
+        <h3>Area vaxed percetage fully dosed: <span id="areavax2"></span></h3>
+        <h3>Cases confirmed: <span id="cases"></span></h3>
+        <h3>Number of Deaths: <span id="deaths"></span></h3>
+        <h3>Risk level: <span id="riskLevel"></span></h3>
+      </div>
+    </div>
+    <div id="infoResultTwo" class="hide ui three column doubling stackable grid raised container segment">
+    <div class="column">
+      <h1>Entry Regulations:</h1>
+      <h3>Mask requirement: <span id="mask"></span></h3>
+      <p id="maskText"></p>
+      <h3>Type of ban: <span id="ban"></span></h3>
+      <h3>More Info: </h3>
+      <p id="mI"></p>
+    </div>
+    <div class="column">
+      <h1>Exit Regulations: </h1>
+      <h3>Special Requirement: <span id="sP"></span></h3>
+      <p id="eI"></p>
+
+    </div>
+    <div class="column">
+      <h3>Covid-19 Area Report:</h3>
+      <p id="summary"></p>
+    </div>
   </div>
 
-</body>
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
-<script src="semantic/dist/semantic.min.js"></script>
 
+       <div id="emailSender" class="hide ui raised very padded text container segment">
+        <!-- <h2 class="ui header">Email me the info!</h2>
+        <form class="ui form">
+            <div class="field">
+              <form action="https://mailthis.to/you@mail.com" method="POST"> 
+                <input type="email" name="_replyto" placeholder="Your email">
+                <input class="ui button" type="submit" value="Send"></input>
+             </form>   
+            </div>         
+        </form>  -->
+        <h2 class="ui header">Email me the info!</h2>
+        <div class="ui action input">
+          <input type="text" placeholder="Search...">
+          <button id="emailSender" class="ui button">Send</button>
+        </div>
+ 
+      </div>
+  </div>
+    
+     
+      </div>
 
+   
+   
+   </body>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+   <script src="script.js"></script>
