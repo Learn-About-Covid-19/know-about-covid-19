@@ -1,18 +1,24 @@
 // Client credentials
-var id = 'eoA8v8C7DRAGuCpveUVcpkQ3ufQfyrBb';
-var secret = 'mANKYSsdT5JsART3';
+var id = 'An9G7DftM0xfJ9d7RWtCxMWkDCFhGvYD';
+var secret = 'JkL0M1Yb5Bny7KEf';
 var areaEl = document.querySelector('#area')
 var areavaxEl = document.querySelector('#areavax')
 var areavax2El = document.querySelector('#areavax2')
 var casesEl = document.querySelector('#cases')
+var deathsEl = document.querySelector('#deaths')
 var infectionsEl = document.querySelector('#infections')
 var riskEl = document.querySelector('#riskLevel')
-var typeEl = document.querySelector('#type')
+var maskEl = document.querySelector('#mask')
+var maskTEl = document.querySelector('#maskText')
+var banEl = document.querySelector('#ban')
+var bTEl = document.querySelector('#mI')
+var sPEl = document.querySelector('#sP')
+var exitEl = document.querySelector('#eI')
 var summaryEl = document.querySelector('#summary')
 var countryEl = document.getElementById("country")
 
 
-var countryCode = {
+let countries = {
     "AF": "Afghanistan",
     "AL": "Albania",
     "DZ": "Algeria",
@@ -28,7 +34,7 @@ var countryCode = {
     "AU": "Australia",
     "AT": "Austria",
     "AZ": "Azerbaijan",
-    "BS": "Bahamas (the)",
+    "BS": "Bahamas",
     "BH": "Bahrain",
     "BD": "Bangladesh",
     "BB": "Barbados",
@@ -44,7 +50,7 @@ var countryCode = {
     "BW": "Botswana",
     "BV": "Bouvet Island",
     "BR": "Brazil",
-    "IO": "British Indian Ocean Territory (the)",
+    "IO": "British Indian Ocean Territory",
     "BN": "Brunei Darussalam",
     "BG": "Bulgaria",
     "BF": "Burkina Faso",
@@ -53,18 +59,18 @@ var countryCode = {
     "KH": "Cambodia",
     "CM": "Cameroon",
     "CA": "Canada",
-    "KY": "Cayman Islands (the)",
-    "CF": "Central African Republic (the)",
+    "KY": "Cayman Islands",
+    "CF": "Central African Republic",
     "TD": "Chad",
     "CL": "Chile",
     "CN": "China",
     "CX": "Christmas Island",
-    "CC": "Cocos (Keeling) Islands (the)",
+    "CC": "Cocos (Keeling) Islands",
     "CO": "Colombia",
-    "KM": "Comoros (the)",
+    "KM": "Comoros",
     "CD": "Congo (the Democratic Republic of the)",
-    "CG": "Congo (the)",
-    "CK": "Cook Islands (the)",
+    "CG": "Congo",
+    "CK": "Cook Islands",
     "CR": "Costa Rica",
     "HR": "Croatia",
     "CU": "Cuba",
@@ -75,7 +81,7 @@ var countryCode = {
     "DK": "Denmark",
     "DJ": "Djibouti",
     "DM": "Dominica",
-    "DO": "Dominican Republic (the)",
+    "DO": "Dominican Republic",
     "EC": "Ecuador",
     "EG": "Egypt",
     "SV": "El Salvador",
@@ -84,16 +90,16 @@ var countryCode = {
     "EE": "Estonia",
     "SZ": "Eswatini",
     "ET": "Ethiopia",
-    "FK": "Falkland Islands (the) [Malvinas]",
-    "FO": "Faroe Islands (the)",
+    "FK": "Falkland Islands [Malvinas]",
+    "FO": "Faroe Islands",
     "FJ": "Fiji",
     "FI": "Finland",
     "FR": "France",
     "GF": "French Guiana",
     "PF": "French Polynesia",
-    "TF": "French Southern Territories (the)",
+    "TF": "French Southern Territories",
     "GA": "Gabon",
-    "GM": "Gambia (the)",
+    "GM": "Gambia",
     "GE": "Georgia",
     "DE": "Germany",
     "GH": "Ghana",
@@ -110,7 +116,7 @@ var countryCode = {
     "GY": "Guyana",
     "HT": "Haiti",
     "HM": "Heard Island and McDonald Islands",
-    "VA": "Holy See (the)",
+    "VA": "Holy See",
     "HN": "Honduras",
     "HK": "Hong Kong",
     "HU": "Hungary",
@@ -134,7 +140,7 @@ var countryCode = {
     "KR": "Korea (the Republic of)",
     "KW": "Kuwait",
     "KG": "Kyrgyzstan",
-    "LA": "Lao People's Democratic Republic (the)",
+    "LA": "Lao People's Democratic Republic",
     "LV": "Latvia",
     "LB": "Lebanon",
     "LS": "Lesotho",
@@ -150,7 +156,7 @@ var countryCode = {
     "MV": "Maldives",
     "ML": "Mali",
     "MT": "Malta",
-    "MH": "Marshall Islands (the)",
+    "MH": "Marshall Islands",
     "MQ": "Martinique",
     "MR": "Mauritania",
     "MU": "Mauritius",
@@ -168,15 +174,15 @@ var countryCode = {
     "NA": "Namibia",
     "NR": "Nauru",
     "NP": "Nepal",
-    "NL": "Netherlands (the)",
+    "NL": "Netherlands",
     "NC": "New Caledonia",
     "NZ": "New Zealand",
     "NI": "Nicaragua",
-    "NE": "Niger (the)",
+    "NE": "Niger",
     "NG": "Nigeria",
     "NU": "Niue",
     "NF": "Norfolk Island",
-    "MP": "Northern Mariana Islands (the)",
+    "MP": "Northern Mariana Islands",
     "NO": "Norway",
     "OM": "Oman",
     "PK": "Pakistan",
@@ -186,7 +192,7 @@ var countryCode = {
     "PG": "Papua New Guinea",
     "PY": "Paraguay",
     "PE": "Peru",
-    "PH": "Philippines (the)",
+    "PH": "Philippines",
     "PN": "Pitcairn",
     "PL": "Poland",
     "PT": "Portugal",
@@ -194,7 +200,7 @@ var countryCode = {
     "QA": "Qatar",
     "MK": "Republic of North Macedonia",
     "RO": "Romania",
-    "RU": "Russian Federation (the)",
+    "RU": "Russian Federation",
     "RW": "Rwanda",
     "RE": "Réunion",
     "BL": "Saint Barthélemy",
@@ -223,7 +229,7 @@ var countryCode = {
     "SS": "South Sudan",
     "ES": "Spain",
     "LK": "Sri Lanka",
-    "SD": "Sudan (the)",
+    "SD": "Sudan",
     "SR": "Suriname",
     "SJ": "Svalbard and Jan Mayen",
     "SE": "Sweden",
@@ -241,14 +247,14 @@ var countryCode = {
     "TN": "Tunisia",
     "TR": "Turkey",
     "TM": "Turkmenistan",
-    "TC": "Turks and Caicos Islands (the)",
+    "TC": "Turks and Caicos Islands",
     "TV": "Tuvalu",
     "UG": "Uganda",
     "UA": "Ukraine",
-    "AE": "United Arab Emirates (the)",
-    "GB": "United Kingdom of Great Britain and Northern Ireland (the)",
-    "UM": "United States Minor Outlying Islands (the)",
-    "US": "United States of America (the)",
+    "AE": "United Arab Emirates",
+    "GB": "United Kingdom of Great Britain and Northern Ireland",
+    "UM": "United States Minor Outlying Islands",
+    "US": "United States of America",
     "UY": "Uruguay",
     "UZ": "Uzbekistan",
     "VU": "Vanuatu",
@@ -263,12 +269,43 @@ var countryCode = {
     "ZW": "Zimbabwe",
     "AX": "Åland Islands"
 };
+let optionList = document.getElementById('countries')
+for (const key in countries) {
+    let option = document.createElement('option')
+    option.value = countries[key]
+    option.id = key
+
+    optionList.append(option)
+
+}
+
+let countryCode = ""
+document.getElementById('country').addEventListener('click', function (event) {
+    let input = document.querySelector('input[name=countries]')
+    event.preventDefault()
+    for (const key in countries) {
+        if (countries[key] == input.value) {
+            countryCode = key
+            console.log(countryCode)
+        }
+    }
+})
 
 
+var nameEl = ""
+var areavaxVal = ""
+var areavax2Val = ""
 
 
 function SearchInfo() {
-    console.log("The search info was selected")
+    $('#init').addClass('hide')
+    $('#secondPage').removeClass('hide')
+    $('#infoResult').removeClass('hide')
+    $('#infoResultTwo').removeClass('hide')
+    $('#emailSender').removeClass('hide')
+
+    $("#root").css("background-image", "url(https://images.pexels.com/photos/1008155/pexels-photo-1008155.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260)")
+
     fetch('https://test.api.amadeus.com/v1/security/oauth2/token', {
         method: 'POST',
         body: 'grant_type=client_credentials&client_id=' + id + '&client_secret=' + secret,
@@ -281,7 +318,7 @@ function SearchInfo() {
             var token = data['access_token']
             var ACCESS_TOKEN = 'Bearer ' + token;
             console.log('Success:', data);
-            fetch("https://test.api.amadeus.com/v1/duty-of-care/diseases/covid19-area-report?countryCode=US", {
+            fetch("https://test.api.amadeus.com/v1/duty-of-care/diseases/covid19-area-report?countryCode=" + countryCode, {
                 headers: {
                     Authorization: ACCESS_TOKEN,
                     "Content-Type": 'application/json'
@@ -290,43 +327,51 @@ function SearchInfo() {
 
                 .then(response => response.json())
                 .then(data => {
-                    var nameEl = data['data']['area']['name']
-                    var areavaxVal = data['data']['areaVaccinated']['0']['percentage'];
-                    var areavax2Val = data['data']['areaVaccinated']['1']['percentage'];
-                    var casesVal = data['data']['diseaseCases']['confirmed'];
-                    var risksVal = data['data']['diseaseRiskLevel'];
-                    var typeVal = data['data']['type'];
-                    var summaryVal = data['data']['summary'];
+                    nameEl = data['data']['area']['name'] || ""
+                    areavaxVal = data['data']['areaVaccinated']['0']['percentage']|| "";
+                    areavax2Val = data['data']['areaVaccinated']['1']['percentage']|| "";
+                    var casesVal = data['data']['diseaseCases']['confirmed']|| "";
+                    var deathsVal = data['data']['diseaseCases']['deaths']|| "";
+                    var summaryVal = data['data']['summary']|| "";
+                    var maskVal = data['data']['areaAccessRestriction']['mask']['isRequired']|| ""
+                    var maskTVAl = data['data']['areaAccessRestriction']['mask']['text']|| ""
+                    var banVal = data['data']['areaAccessRestriction']['entry']['ban']|| ""
+                    var bTextVal = data['data']['areaAccessRestriction']['entry']['text']|| ""
+                    var sPVal = data['data']['areaAccessRestriction']['exit']['specialRequirements']|| ""
+                    var eIVal = data['data']['areaAccessRestriction']['exit']['text']|| ""
+
+            
 
                     areaEl.innerHTML = nameEl;
+                    areaEl.value = nameEl;
                     areavaxEl.innerHTML = areavaxVal + ' %';
                     areavax2El.innerHTML = areavax2Val + ' %';
                     casesEl.innerHTML = casesVal;
-                    riskEl.innerHTML = risksVal;
-                    typeEl.innerHTML = typeVal;
                     summaryEl.innerHTML = summaryVal;
+                    deathsEl.innerHTML = deathsVal;
+                    maskEl.innerHTML = maskVal;
+                    maskTEl.innerHTML = maskTVAl;
+                    banEl.innerHTML = banVal;
+                    bTEl.innerHTML = bTextVal;
+                    sPEl.innerHTML = sPVal;
+                    exitEl.innerHTML = eIVal;
 
-                    // function getsendEmail (event){
-                    fetch("https://submit-form.com/zj6diEJw", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Accept: "application/json",
-                        },
-                        body: JSON.stringify({
-                            message: "COVID-19 Information",
-                            'Country Name': nameEl,
-                            'percentage with 1 dose': areavaxVal + ' %',
-                            'percentage fully vaxed': areavax2Val + ' %',
-                        }),
-                    })
-                        .then(function (response) {
-                            console.log(response);
-                        })
-                        .catch(function (error) {
-                            console.error(error);
 
-                        });
+                    var risksVal = data['data']['diseaseRiskLevel'];
+
+                    if (risksVal === 'Low') {
+                        riskEl.style.background = 'green'
+                    } else if (risksVal === 'Medium') {
+                        riskEl.style.background = 'yellow'
+                    } else if (risksVal === 'High') {
+                        riskEl.style.background = 'red'
+                    } else if (risksVal === 'Extreme') {
+                        riskEl.style.background = 'violet'
+                    }
+                    riskEl.innerHTML = risksVal;
+
+                   
+
                     console.log('Success:', data)
                 })
                 .catch((error) => {
@@ -334,19 +379,40 @@ function SearchInfo() {
 
                 });
         })
-}
 
 
 
-// // var send = document.querySelector('#send');
-// // send.addEventListener("click",sendEmail());
+    }
 
-// Handlebars.registerHelper("json", function (context) {
-//     return JSON.stringify(context);
-// });
+
+    function sendEmail() {
+        console.log("im clicked")
+        fetch("https://submit-form.com/zj6diEJw", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify({
+                message: "COVID-19 Information",
+                'Country Name': nameEl,
+                'percentage with 1 dose': areavaxVal + ' %',
+                'percentage fully vaxed': areavax2Val + ' %',
+            }),
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+
+    }
 
 
 countryEl.addEventListener("click", SearchInfo)
+
+$('#emailSender').click(sendEmail)
 
 
 
