@@ -416,12 +416,14 @@ function sendEmail() {
 $('#emailSender').click(sendEmail)
 
 //Local storage for seach history
+var searchHistoryButtonEl = document.querySelector('#prevHistory-buttons');
+
 var saveSearch = function(){
     localStorage.setItem("countries", JSON.stringify(nameEl));
 };
 //List of all previous saved searches you can click on
 var pastSearch = function(pastSearch){
-    prevSearchEl = document.createElement("button");
+    var prevSearchEl = document.createElement("button");
     prevSearchEl.textContent = pastSearch;
     prevSearchEl.classList = "";
     prevSearchEl.setAttribute("data-country",pastSearch)
