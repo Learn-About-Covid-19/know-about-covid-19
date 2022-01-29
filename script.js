@@ -428,7 +428,8 @@ function getCountryCode(event){
 //Local storage for seach history
 var searchHistoryButtonEl = document.querySelector('#prevHistory-buttons');
 
-var saveSearch = function(country){
+var saveSearch = function(countryCode){
+    var country = countries[countryCode]
     var historyAr = JSON.parse(localStorage.getItem('historyArray'))||[]
     historyAr.push(country)
     localStorage.setItem("historyArray", JSON.stringify(historyAr));
@@ -443,7 +444,7 @@ var pastSearch = function(pastSearch){
     searchHistoryButtonEl.prepend(prevSearchEl);
 };
 var searchHistory = function(event){
-    var countryCode = getCountryCode()
+    var countryCode = getCountryCode(event)
     var country = event.target.getAttribute("data-country")
     console.log(country)
     saveSearch(countryCode)
@@ -453,6 +454,8 @@ var searchHistory = function(event){
     };
 
 };
+
+
 countryEl.addEventListener("click", searchHistory);
 
 
