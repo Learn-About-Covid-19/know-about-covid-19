@@ -31,6 +31,66 @@
         </div>
      </div>
   </div>
+
+  <form action="/action_page.php" method="get">
+    <label for="browser">Choose your browser from the list:</label>
+    <input list="countries" name="countries" >
+    <datalist id="countries">
+      
+    </datalist>
+    <input type="submit" id="enter">
+  </form>
+  
+  <script>
+      
+         let countries = {
+        "US": "United States of America",
+              "CAN": "Republique of Canada",
+              "NIG": "Nigeria",
+              "COL" : "Colombia",
+      }
+      
+          let optionList = document.getElementById('countries') 
+        for (const key in countries) {
+            let option = document.createElement('option')
+        option.value = countries[key] 
+              option.id = key
+              
+            optionList.append(option) 
+          
+      }
+          
+          document.getElementById('enter').addEventListener('click', function(event) {
+              let input = document.querySelector('input[name=countries]')
+              event.preventDefault()
+              for( const key in countries) {
+                 if ( countries[key] == input.value) {
+                    let countryCode = key 
+                    makeApiRequest(countryCode)
+                  }
+              }
+            })
+        
+
+      </script>
+
+  <div class="ui raised very padded text container segment">
+    <h2 class="ui header">Email me the info!</h2>
+    <form class="ui form">
+       <div class="field">
+         <label>E-mail</label>
+         <input type="text" name="first-name" placeholder="First Name">
+       </div>
+       <div class="field">
+         <div class="ui checkbox">
+           <input type="checkbox" tabindex="0" class="hidden">
+           <label>I agree to the Terms and Conditions</label>
+         </div>
+       </div>
+       <button class="ui button" type="submit">Submit</button>
+     </form>
+  </div>
+
 </body>
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
