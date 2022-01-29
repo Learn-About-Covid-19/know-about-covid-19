@@ -333,7 +333,7 @@ function SearchInfo() {
                     var casesVal = data['data']['diseaseCases']['confirmed']|| "";
                     var deathsVal = data['data']['diseaseCases']['deaths']|| "";
                     var summaryVal = data['data']['summary']|| "";
-                    var maskVal = data['data']['areaAccessRestriction']['mask']['isRequired']|| ""
+                    var maskVal = data['data']['areaAccessRestriction']['mask']['isRequired']|| "not found"
                     var maskTVAl = data['data']['areaAccessRestriction']['mask']['text']|| ""
                     var banVal = data['data']['areaAccessRestriction']['entry']['ban']|| ""
                     var bTextVal = data['data']['areaAccessRestriction']['entry']['text']|| ""
@@ -385,36 +385,55 @@ function SearchInfo() {
     }
 
 
-    function sendEmail() {
-        console.log("im clicked")
-        fetch("https://submit-form.com/zj6diEJw", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify({
-                message: "COVID-19 Information",
-                'Country Name': nameEl,
-                'percentage with 1 dose': areavaxVal + ' %',
-                'percentage fully vaxed': areavax2Val + ' %',
-            }),
-        })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.error(error);
-            });
-
-    }
+   
 
 
 countryEl.addEventListener("click", SearchInfo)
+function sendEmail() {
+    console.log("im clicked")
+    fetch("https://submit-form.com/zj6diEJw", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify({
+            message: "COVID-19 Information",
+            'Country Name': nameEl,
+            'percentage with 1 dose': areavaxVal + ' %',
+            'percentage fully vaxed': areavax2Val + ' %',
+        }),
+    })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+
+}
 
 $('#emailSender').click(sendEmail)
 
-
-
+//Local storage for seach history
+var saveSearch = function(){
+    localStorage.setItem("countries", JSON.stringify(nameEl));
+};
+//List of all previous saved searches you can click on
+var pastSearch = function(pastSearch){
+    prevSearchEl = document.createElement("button");
+    prevSearchEl.textContent = pastSearch;
+    prevSearchEl.classList = "";
+    prevSearchEl.setAttribute("data-country",pastSearch)
+    prevSearchEl.setAttribute("type", "submit");
+    searchHistoryButtonEl.prepend(prevSearchEl);
+};
+var searchHistory = function(event){
+    var country = event.target.getAttribute("data-country")
+    if(country){
+        SearchInfo(country);
+    };
+};
+countryEl.addEventListener("click", searchHistory);
 
 
