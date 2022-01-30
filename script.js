@@ -455,6 +455,16 @@ var searchHistory = function(event){
 
 };
 
+var listCountry =['','AUDI','MAYBACK','FERRARI','TOYOTA'];   
+        //the array
+        function printBtn() {
+            for (var i = 0; i < listBrand.length; i++) {
+               var btn = document.createElement("button");
+               var t = document.createTextNode(listBrand[i]);
+               btn.appendChild(t);
+               document.body.appendChild(btn);
+            }
+        }
 
 countryEl.addEventListener("click", searchHistory);
 
