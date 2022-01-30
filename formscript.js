@@ -28,7 +28,7 @@
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: 'grant_type=client_credentials&client_id=vorx3ze1n1AFKPaKoZO9xd90oDkxQ2hn&client_secret=28bcOUERvU3fGAAw'
+                body: 'grant_type=client_credentials&client_id=eoA8v8C7DRAGuCpveUVcpkQ3ufQfyrBb&client_secret=mANKYSsdT5JsART3'
             }).then (response => {
                 if (response.status != 200)
                     throw "Connection Error";
