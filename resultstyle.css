@@ -1,0 +1,42 @@
+body {
+    background-image: url("https://images.pexels.com/photos/1008155/pexels-photo-1008155.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
+   }
+   
+  .masthead h1.ui.header {
+    margin-top: 2em;
+    margin-bottom: 0em;
+    font-size: 4em;
+    font-weight: normal;
+  }
+
+  .masthead h2 {
+    font-size: 1.7em;
+    font-weight: normal;
+  }
+  .ui.primary.button {
+      border-radius: 2em;
+  }
+
+  .ui[class*="very padded"].segment {
+    padding: 1em;
+}
+  
+  @media only screen and (max-width: 700px) {
+    .ui.fixed.menu {
+      display: none !important;
+    }
+
+    .masthead.segment {
+      min-height: 350px;
+    }
+
+    .masthead h1.ui.header {
+      font-size: 2em;
+      margin-top: 1.5em;
+    }
+
+    .masthead h2 {
+      margin-top: 0.5em;
+      font-size: 1.5em;
+    }
+  }
