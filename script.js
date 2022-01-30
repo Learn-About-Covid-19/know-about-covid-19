@@ -1,6 +1,6 @@
 // Client credentials
-var id = 'An9G7DftM0xfJ9d7RWtCxMWkDCFhGvYD';
-var secret = 'JkL0M1Yb5Bny7KEf';
+var id = '5G86Omm91FMlsMe2e9NfzDPDJs4IBs4b';
+var secret = 'YcHCWlgbbsAy54gS';
 var areaEl = document.querySelector('#area')
 var areavaxEl = document.querySelector('#areavax')
 var areavax2El = document.querySelector('#areavax2')
@@ -298,6 +298,7 @@ var areavax2Val = ""
 
 
 function SearchInfo(countryCode) {
+    console.log("the country code is", countryCode)
     $('#init').addClass('hide')
     $('#secondPage').removeClass('hide')
     $('#infoResult').removeClass('hide')
@@ -388,7 +389,7 @@ function SearchInfo(countryCode) {
    
 
 
-countryEl.addEventListener("click", SearchInfo)
+
 function sendEmail() {
     console.log("im clicked")
     fetch("https://submit-form.com/zj6diEJw", {
@@ -414,14 +415,22 @@ function sendEmail() {
 }
 
 $('#emailSender').click(sendEmail)
-function getCountryCode(event){
+function getCountryCode(){
     let input = document.querySelector('input[name=countries]')
-    event.preventDefault()
+
     for (const key in countries) {
         if (countries[key] == input.value) {
             countryCode = key
             return countryCode
-            console.log(countryCode)
+        }
+    }
+}
+
+function getCountryCodeFromString(country) {
+    for (const key in countries) {
+        if (countries[key] == country) {
+            countryCode = key
+            return countryCode
         }
     }
 }
@@ -429,33 +438,63 @@ function getCountryCode(event){
 var searchHistoryButtonEl = document.querySelector('#prevHistory-buttons');
 
 var saveSearch = function(countryCode){
+
+    if(!countryCode) {
+        return
+    }
+
     var country = countries[countryCode]
     var historyAr = JSON.parse(localStorage.getItem('historyArray'))||[]
+    if(historyAr.includes(country)) {
+        return 
+    }
     historyAr.push(country)
     localStorage.setItem("historyArray", JSON.stringify(historyAr));
 };
 //List of all previous saved searches you can click on
-var pastSearch = function(pastSearch){
+var createButton = function(pastSearch){
     var prevSearchEl = document.createElement("button");
     prevSearchEl.textContent = pastSearch;
     prevSearchEl.classList = "";
     prevSearchEl.setAttribute("data-country",pastSearch)
     prevSearchEl.setAttribute("type", "submit");
     searchHistoryButtonEl.prepend(prevSearchEl);
+    prevSearchEl.addEventListener("click", function() {
+        let countryCode = getCountryCodeFromString(pastSearch)
+        SearchInfo(countryCode)
+    })
 };
-var searchHistory = function(event){
-    var countryCode = getCountryCode(event)
-    var country = event.target.getAttribute("data-country")
-    console.log(country)
+var searchHistory = function(){
+
+    var country = document.getElementById('c').value
+    let countryCode = getCountryCodeFromString(country)
+
     saveSearch(countryCode)
+    loadData()
     if(country){
         SearchInfo(countryCode);
-
     };
 
 };
 
+var loadData = function (event) {
 
-countryEl.addEventListener("click", searchHistory);
+    searchHistoryButtonEl.innerHTML = ''
 
+    var loadData = localStorage.getItem("historyArray")
+    if (loadData == null || loadData == "") return;
 
+    var countryButtonArr = JSON.parse(loadData)
+
+    for (i = 0; i < countryButtonArr.length; i++) {
+        createButton(countryButtonArr[i])
+    }
+  
+}
+loadData()
+document.getElementById('country').addEventListener('click', (event) => {
+    event.preventDefault()
+    console.log("we are here")
+    searchHistory(event)
+})
+//countryEl.addEventListener("click", SearchInfo)
