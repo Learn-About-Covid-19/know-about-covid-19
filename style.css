@@ -21,6 +21,17 @@ i {
   font-size: 1.7em;
   font-weight: normal;
 }
+button {
+  border-radius: 2em;
+}
+
+.ui.primary.button {
+  border-radius: 2em;
+}
+#clear {
+  border-radius: 2em; 
+}
+
 .ui.primary.button {
   border-radius: 2em;
 }
