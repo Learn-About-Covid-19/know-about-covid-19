@@ -17,7 +17,6 @@ var exitEl = document.querySelector('#eI')
 var summaryEl = document.querySelector('#summary')
 var countryEl = document.getElementById("country")
 
-
 let countries = {
     "AF": "Afghanistan",
     "AL": "Albania",
@@ -291,11 +290,9 @@ for (const key in countries) {
 //     // }
 // })
 
-
 var nameEl = ""
 var areavaxVal = ""
 var areavax2Val = ""
-
 
 function SearchInfo(countryCode) {
     console.log("the country code is", countryCode)
@@ -341,8 +338,6 @@ function SearchInfo(countryCode) {
                     var sPVal = data['data']['areaAccessRestriction']['exit']['specialRequirements']|| ""
                     var eIVal = data['data']['areaAccessRestriction']['exit']['text']|| ""
 
-            
-
                     areaEl.innerHTML = nameEl;
                     areaEl.value = nameEl;
                     areavaxEl.innerHTML = areavaxVal + ' %';
@@ -357,7 +352,6 @@ function SearchInfo(countryCode) {
                     sPEl.innerHTML = sPVal;
                     exitEl.innerHTML = eIVal;
 
-
                     var risksVal = data['data']['diseaseRiskLevel'];
 
                     if (risksVal === 'Low') {
@@ -371,8 +365,6 @@ function SearchInfo(countryCode) {
                     }
                     riskEl.innerHTML = risksVal;
 
-                   
-
                     console.log('Success:', data)
                 })
                 .catch((error) => {
@@ -380,15 +372,7 @@ function SearchInfo(countryCode) {
 
                 });
         })
-
-
-
     }
-
-
-   
-
-
 
 function sendEmail() {
     console.log("im clicked")

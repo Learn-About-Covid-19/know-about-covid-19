@@ -6,7 +6,6 @@ body {
   display: none!important;
 }
 
-
 .masthead h1.ui.header {
   margin-top: 2em;
   margin-bottom: 0em;
@@ -26,7 +25,6 @@ body {
   padding: 1em;
 }
 
-  
 @media only screen and (max-width: 700px) {
   .ui.fixed.menu {
     display: none !important;
