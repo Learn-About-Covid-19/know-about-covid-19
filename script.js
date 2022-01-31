@@ -1,6 +1,8 @@
 // Client credentials
 var id = '5G86Omm91FMlsMe2e9NfzDPDJs4IBs4b';
 var secret = 'YcHCWlgbbsAy54gS';
+
+//List of the other variables
 var areaEl = document.querySelector('#area')
 var areavaxEl = document.querySelector('#areavax')
 var areavax2El = document.querySelector('#areavax2')
@@ -17,7 +19,7 @@ var exitEl = document.querySelector('#eI')
 var summaryEl = document.querySelector('#summary')
 var countryEl = document.getElementById("country")
 
-
+//Variable list of all countries for search list.
 let countries = {
     "AF": "Afghanistan",
     "AL": "Albania",
@@ -259,7 +261,7 @@ let countries = {
     "UZ": "Uzbekistan",
     "VU": "Vanuatu",
     "VE": "Venezuela (Bolivarian Republic of)",
-    "VN": "Viet Nam",
+    "VN": "Vietnam",
     "VG": "Virgin Islands (British)",
     "VI": "Virgin Islands (U.S.)",
     "WF": "Wallis and Futuna",
@@ -276,7 +278,6 @@ for (const key in countries) {
     option.id = key
 
     optionList.append(option)
-
 }
 
 // let countryCode = ""
@@ -291,12 +292,11 @@ for (const key in countries) {
 //     // }
 // })
 
-
 var nameEl = ""
 var areavaxVal = ""
 var areavax2Val = ""
 
-
+//Function that grabs allows us to access token for the API then pull data from the API.
 function SearchInfo(countryCode) {
     console.log("the country code is", countryCode)
     $('#init').addClass('hide')
@@ -329,19 +329,17 @@ function SearchInfo(countryCode) {
                 .then(response => response.json())
                 .then(data => {
                     nameEl = data['data']['area']['name'] || ""
-                    areavaxVal = data['data']['areaVaccinated']['0']['percentage']|| "";
-                    areavax2Val = data['data']['areaVaccinated']['1']['percentage']|| "";
-                    var casesVal = data['data']['diseaseCases']['confirmed']|| "";
-                    var deathsVal = data['data']['diseaseCases']['deaths']|| "";
-                    var summaryVal = data['data']['summary']|| "";
-                    var maskVal = data['data']['areaAccessRestriction']['mask']['isRequired']|| "not found"
-                    var maskTVAl = data['data']['areaAccessRestriction']['mask']['text']|| ""
-                    var banVal = data['data']['areaAccessRestriction']['entry']['ban']|| ""
-                    var bTextVal = data['data']['areaAccessRestriction']['entry']['text']|| ""
-                    var sPVal = data['data']['areaAccessRestriction']['exit']['specialRequirements']|| ""
-                    var eIVal = data['data']['areaAccessRestriction']['exit']['text']|| ""
-
-            
+                    areavaxVal = data['data']['areaVaccinated']['0']['percentage'] || "";
+                    areavax2Val = data['data']['areaVaccinated']['1']['percentage'] || "";
+                    var casesVal = data['data']['diseaseCases']['confirmed'] || "";
+                    var deathsVal = data['data']['diseaseCases']['deaths'] || "";
+                    var summaryVal = data['data']['summary'] || "";
+                    var maskVal = data['data']['areaAccessRestriction']['mask']['isRequired'] || "not found"
+                    var maskTVAl = data['data']['areaAccessRestriction']['mask']['text'] || ""
+                    var banVal = data['data']['areaAccessRestriction']['entry']['ban'] || ""
+                    var bTextVal = data['data']['areaAccessRestriction']['entry']['text'] || ""
+                    var sPVal = data['data']['areaAccessRestriction']['exit']['specialRequirements'] || ""
+                    var eIVal = data['data']['areaAccessRestriction']['exit']['text'] || ""
 
                     areaEl.innerHTML = nameEl;
                     areaEl.value = nameEl;
@@ -357,7 +355,6 @@ function SearchInfo(countryCode) {
                     sPEl.innerHTML = sPVal;
                     exitEl.innerHTML = eIVal;
 
-
                     var risksVal = data['data']['diseaseRiskLevel'];
 
                     if (risksVal === 'Low') {
@@ -371,25 +368,15 @@ function SearchInfo(countryCode) {
                     }
                     riskEl.innerHTML = risksVal;
 
-                   
-
                     console.log('Success:', data)
                 })
                 .catch((error) => {
                     console.error('Error:', error);
-
                 });
         })
+}
 
-
-
-    }
-
-
-   
-
-
-
+// Sends email with all of the information of the country searched to the user.
 function sendEmail() {
     console.log("im clicked")
     fetch("https://submit-form.com/zj6diEJw", {
@@ -411,11 +398,10 @@ function sendEmail() {
         .catch(function (error) {
             console.error(error);
         });
-
 }
 
 $('#emailSender').click(sendEmail)
-function getCountryCode(){
+function getCountryCode() {
     let input = document.querySelector('input[name=countries]')
 
     for (const key in countries) {
@@ -434,44 +420,46 @@ function getCountryCodeFromString(country) {
         }
     }
 }
-//Local storage for seach history
+//Local storage for search history
 var searchHistoryButtonEl = document.querySelector('#prevHistory-buttons');
 
-var saveSearch = function(countryCode){
+var saveSearch = function (countryCode) {
 
-    if(!countryCode) {
+    if (!countryCode) {
         return
     }
 
     var country = countries[countryCode]
-    var historyAr = JSON.parse(localStorage.getItem('historyArray'))||[]
-    if(historyAr.includes(country)) {
-        return 
+    var historyAr = JSON.parse(localStorage.getItem('historyArray')) || []
+    if (historyAr.includes(country)) {
+        return
     }
     historyAr.push(country)
     localStorage.setItem("historyArray", JSON.stringify(historyAr));
 };
+
 //List of all previous saved searches you can click on
-var createButton = function(pastSearch){
+var createButton = function (pastSearch) {
     var prevSearchEl = document.createElement("button");
     prevSearchEl.textContent = pastSearch;
     prevSearchEl.classList = "";
-    prevSearchEl.setAttribute("data-country",pastSearch)
+    prevSearchEl.setAttribute("data-country", pastSearch)
     prevSearchEl.setAttribute("type", "submit");
     searchHistoryButtonEl.prepend(prevSearchEl);
-    prevSearchEl.addEventListener("click", function() {
+    prevSearchEl.addEventListener("click", function () {
         let countryCode = getCountryCodeFromString(pastSearch)
         SearchInfo(countryCode)
     })
 };
-var searchHistory = function(){
+
+var searchHistory = function () {
 
     var country = document.getElementById('c').value
     let countryCode = getCountryCodeFromString(country)
 
     saveSearch(countryCode)
     loadData()
-    if(country){
+    if (country) {
         SearchInfo(countryCode);
     };
 
@@ -489,7 +477,7 @@ var loadData = function (event) {
     for (i = 0; i < countryButtonArr.length; i++) {
         createButton(countryButtonArr[i])
     }
-  
+
 }
 loadData()
 document.getElementById('country').addEventListener('click', (event) => {
@@ -497,4 +485,26 @@ document.getElementById('country').addEventListener('click', (event) => {
     console.log("we are here")
     searchHistory(event)
 })
-//countryEl.addEventListener("click", SearchInfo)
+
+//Clears page and deletes previously saved searches
+function deleteChild() {
+    var e = document.querySelector("#prevHistory-buttons");
+    
+    //e.firstElementChild can be used.
+    var child = e.lastElementChild; 
+    while (child) {
+        e.removeChild(child);
+        child = e.lastElementChild;
+    }
+}
+
+$("#clear").on("click", function(){
+    deleteChild();
+    localStorage.clear();
+    $('#init').removeClass('hide')
+    $('#secondPage').addClass('hide');
+    $('#infoResult').addClass('hide');
+    $('#infoResultTwo').addClass('hide');
+    $('#emailSender').addClass('hide');
+    $("#root").css("background-image", "url(https://images.pexels.com/photos/1262304/pexels-photo-1262304.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260)")
+})
