@@ -6,6 +6,10 @@ body {
   display: none!important;
 }
 
+i {
+	padding-left: 0.5em;
+ } 
+
 .masthead h1.ui.header {
   margin-top: 2em;
   margin-bottom: 0em;
@@ -17,6 +21,17 @@ body {
   font-size: 1.7em;
   font-weight: normal;
 }
+button {
+  border-radius: 2em;
+}
+
+.ui.primary.button {
+  border-radius: 2em;
+}
+#clear {
+  border-radius: 2em; 
+}
+
 .ui.primary.button {
   border-radius: 2em;
 }
@@ -24,7 +39,7 @@ body {
 .ui[class*="very padded"].segment {
   padding: 1em;
 }
-
+  
 @media only screen and (max-width: 700px) {
   .ui.fixed.menu {
     display: none !important;
