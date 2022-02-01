@@ -295,6 +295,10 @@ for (const key in countries) {
 var nameEl = ""
 var areavaxVal = ""
 var areavax2Val = ""
+var casesVal = ""
+var summaryVal = ""
+var maskVal = ""
+var maskTVAl = ""
 
 //Function that grabs allows us to access token for the API then pull data from the API.
 function SearchInfo(countryCode) {
@@ -329,17 +333,17 @@ function SearchInfo(countryCode) {
                 .then(response => response.json())
                 .then(data => {
                     nameEl = data['data']['area']['name'] || ""
-                    areavaxVal = data['data']['areaVaccinated']['0']['percentage'] || "";
-                    areavax2Val = data['data']['areaVaccinated']['1']['percentage'] || "";
-                    var casesVal = data['data']['diseaseCases']['confirmed'] || "";
-                    var deathsVal = data['data']['diseaseCases']['deaths'] || "";
-                    var summaryVal = data['data']['summary'] || "";
-                    var maskVal = data['data']['areaAccessRestriction']['mask']['isRequired'] || "not found"
-                    var maskTVAl = data['data']['areaAccessRestriction']['mask']['text'] || ""
-                    var banVal = data['data']['areaAccessRestriction']['entry']['ban'] || ""
-                    var bTextVal = data['data']['areaAccessRestriction']['entry']['text'] || ""
-                    var sPVal = data['data']['areaAccessRestriction']['exit']['specialRequirements'] || ""
-                    var eIVal = data['data']['areaAccessRestriction']['exit']['text'] || ""
+                    areavaxVal = data['data']['areaVaccinated']['0']['percentage']|| "not found";
+                    areavax2Val = data['data']['areaVaccinated']['1']['percentage']|| "not found";
+                    casesVal = data['data']['diseaseCases']['confirmed']|| "not found";
+                    var deathsVal = data['data']['diseaseCases']['deaths']|| "not found";
+                    summaryVal = data['data']['summary']|| "not found";
+                    maskVal = data['data']['areaAccessRestriction']['mask']['isRequired']|| "not found";
+                    maskTVAl = data['data']['areaAccessRestriction']['mask']['text']|| "not found";
+                    var banVal = data['data']['areaAccessRestriction']['entry']['ban']|| "not found";
+                    var bTextVal = data['data']['areaAccessRestriction']['entry']['text']|| "not found";
+                    var sPVal = data['data']['areaAccessRestriction']['exit']['specialRequirements']|| "not found";
+                    var eIVal = data['data']['areaAccessRestriction']['exit']['text']|| "not found";
 
                     areaEl.innerHTML = nameEl;
                     areaEl.value = nameEl;
@@ -388,8 +392,12 @@ function sendEmail() {
         body: JSON.stringify({
             message: "COVID-19 Information",
             'Country Name': nameEl,
+            'Mask required?: ': maskVal,
+            'More info on Masks: ': maskTVAl,
+            'confirmed cases' : casesVal,
             'percentage with 1 dose': areavaxVal + ' %',
             'percentage fully vaxed': areavax2Val + ' %',
+            'more info' : summaryVal,
         }),
     })
         .then(function (response) {
